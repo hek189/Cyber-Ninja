@@ -1,46 +1,56 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
+    private Animator animator;
+    private Controls inputActions;
+    private float movX;
+    private Rigidbody2D body;
+    public float jumpForce, speed;
 
-    private Rigidbody2D Rigidbody2D;
-    private Animator Animator;
-    private float MovX;
-    public float JumpForce, Speed;
+    void Awake()
+    {
+        inputActions = new Controls();
+        inputActions.Player.Attack.performed += context => Attack();
+        inputActions.Player.Move.performed += context => movX = context.ReadValue<float>();
+        inputActions.Player.Move.canceled += context => movX = 0;
+        inputActions.Player.Jump.performed += context => Jump();
+    }
 
-    // Start is called before the first frame update
     void Start()
     {
-        Rigidbody2D = GetComponent<Rigidbody2D>();
-        Animator = GetComponent<Animator>();
+        animator = GetComponent<Animator>();
+        body = GetComponent<Rigidbody2D>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        MovX = Input.GetAxisRaw("Horizontal");
-
-        LeftOrRight(MovX);
-        Animator.SetBool("isRunning", MovX != 0);
-
-        if (Input.GetKeyDown(KeyCode.Space) && IsOnGround())
-        {
-            Animator.SetTrigger("jump");
-            Rigidbody2D.AddForce(Vector2.up * JumpForce);
-            
-        }
+        LeftOrRight(movX);
+        animator.SetBool("isRunning", movX != 0);
     }
 
     private void FixedUpdate()
     {
-        Rigidbody2D.velocity = new Vector2(MovX * Speed, Rigidbody2D.velocity.y);
+        body.velocity = new Vector2(movX * speed, body.velocity.y);
     }
 
-    /**
-     * Checks if the player is moving left or right
-     */
+    private void Jump()
+    {
+        if (IsOnGround())
+        {
+            animator.SetTrigger("jump");
+            body.AddForce(Vector2.up * jumpForce);
+        }
+    }
+    private void Attack()
+    {
+        animator.SetTrigger("attack");
+    }
+
     private void LeftOrRight(float AxisX)
     {
         if (AxisX < 0.0f)
@@ -53,9 +63,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    /**
-     * Checks if the player is on the ground
-     */
     private bool IsOnGround()
     {
         if (Physics2D.Raycast(transform.position, Vector3.down, 0.5f))
@@ -63,5 +70,15 @@ public class PlayerMovement : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    private void OnEnable()
+    {
+        inputActions.Player.Enable();
+    }
+
+    private void OnDisable()
+    {
+        inputActions.Player.Disable();
     }
 }
