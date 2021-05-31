@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.Audio;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -10,11 +11,11 @@ public class PlayerMovement : MonoBehaviour
     private float movX;
     private Rigidbody2D body;
     public float jumpForce, speed;
+    public AudioClip jumpSound;
 
     void Awake()
     {
         inputActions = new Controls();
-        inputActions.Player.Attack.performed += context => Attack();
         inputActions.Player.Move.performed += context => movX = context.ReadValue<float>();
         inputActions.Player.Move.canceled += context => movX = 0;
         inputActions.Player.Jump.performed += context => Jump();
@@ -31,6 +32,8 @@ public class PlayerMovement : MonoBehaviour
     {
         LeftOrRight(movX);
         animator.SetBool("isRunning", movX != 0);
+        animator.SetBool("isJumping", !IsOnGround());
+        animator.SetFloat("yDirection", body.velocity.y);
     }
 
     private void FixedUpdate()
@@ -42,13 +45,9 @@ public class PlayerMovement : MonoBehaviour
     {
         if (IsOnGround())
         {
-            animator.SetTrigger("jump");
             body.AddForce(Vector2.up * jumpForce);
+            Camera.main.GetComponent<AudioSource>().PlayOneShot(jumpSound);
         }
-    }
-    private void Attack()
-    {
-        animator.SetTrigger("attack");
     }
 
     private void LeftOrRight(float AxisX)
