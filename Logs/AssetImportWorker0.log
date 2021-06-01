@@ -441,3 +441,105 @@ System memory in use after: 97.7 MB.
 Unloading 25 unused Assets to reduce memory usage. Loaded Objects now: 2611.
 Total: 3.006300 ms (FindLiveObjects: 0.273800 ms CreateObjectMapping: 0.096700 ms MarkObjects: 2.137900 ms  DeleteObjects: 0.487700 ms)
 
+========================================================================
+Received Prepare
+Registering precompiled user dll's ...
+Registered in 0.001649 seconds.
+Begin MonoManager ReloadAssembly
+Native extension for WindowsStandalone target not found
+Native extension for WebGL target not found
+Refreshing native plugins compatible for Editor in 0.65 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Mono: successfully reloaded assembly
+- Completed reload, in  1.300 seconds
+Platform modules already initialized, skipping
+Refreshing native plugins compatible for Editor in 0.48 ms, found 1 plugins.
+Preloading 0 native plugins for Editor in 0.00 ms.
+Unloading 2120 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 98.4 MB.
+System memory in use after: 97.7 MB.
+
+Unloading 25 unused Assets to reduce memory usage. Loaded Objects now: 2615.
+Total: 3.032600 ms (FindLiveObjects: 0.267900 ms CreateObjectMapping: 0.105100 ms MarkObjects: 2.176600 ms  DeleteObjects: 0.481300 ms)
+
+========================================================================
+Received Import Request.
+  Time since last request: 1145.957035 seconds.
+  path: Assets/Sprites/Enemies/Samurai/Samurai_moving.anim
+  artifactKey: Guid(493907083926c0e418119b191b0a1e5c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sprites/Enemies/Samurai/Samurai_moving.anim using Guid(493907083926c0e418119b191b0a1e5c) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b153fe9fccbe146515db265a4dfdfc6e') in 0.029644 seconds
+  Import took 0.034588 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 151.646448 seconds.
+  path: Assets/Sprites/Enemies/Samurai/Attack 2.anim
+  artifactKey: Guid(1874d77364d4b02468ff877d08b40291) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sprites/Enemies/Samurai/Attack 2.anim using Guid(1874d77364d4b02468ff877d08b40291) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'cf94d6a14cb1f7f782d7556d68a25cc1') in 0.010954 seconds
+  Import took 0.041260 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 85.383896 seconds.
+  path: Assets/Animations/Samurai/Samurai Animations.controller
+  artifactKey: Guid(cc3b6c7975f48d04793bc069932397f4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Animations/Samurai/Samurai Animations.controller using Guid(cc3b6c7975f48d04793bc069932397f4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '25ed3a378922dec275828a410eb76c76') in 0.028636 seconds
+  Import took 0.042939 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 109.745201 seconds.
+  path: Assets/Sprites/Enemies/Samurai/Attack 1.anim
+  artifactKey: Guid(bc9badb15f51c184daa00fdb49740ac4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sprites/Enemies/Samurai/Attack 1.anim using Guid(bc9badb15f51c184daa00fdb49740ac4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '20575d8512b94388ad0cc15e8f9c1d8a') in 0.011183 seconds
+  Import took 0.028515 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 339.420793 seconds.
+  path: Assets/Animations/Samurai/Samurai_Attack 1.anim
+  artifactKey: Guid(bc9badb15f51c184daa00fdb49740ac4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Animations/Samurai/Samurai_Attack 1.anim using Guid(bc9badb15f51c184daa00fdb49740ac4) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a63f7371a0d060072c5c77e29df10593') in 0.011945 seconds
+  Import took 0.028069 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 10.956804 seconds.
+  path: Assets/Animations/Samurai/Samurai_Attack 2.anim
+  artifactKey: Guid(1874d77364d4b02468ff877d08b40291) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Animations/Samurai/Samurai_Attack 2.anim using Guid(1874d77364d4b02468ff877d08b40291) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4ba76cd11b79e57d98c734321d169436') in 0.009977 seconds
+  Import took 0.032601 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 310.041055 seconds.
+  path: Assets/Sprites/Enemies/Goon
+  artifactKey: Guid(ea16e52001fb4514fb34f7deff6a5c9f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sprites/Enemies/Goon using Guid(ea16e52001fb4514fb34f7deff6a5c9f) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'a292a6e4a1c053af22fea322e1591dbf') in 0.009410 seconds
+  Import took 0.020084 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 5.079089 seconds.
+  path: Assets/Sprites/Enemies/Goon/Old enemies 2.png
+  artifactKey: Guid(2e3569831e37551438a58bc495264dac) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Sprites/Enemies/Goon/Old enemies 2.png using Guid(2e3569831e37551438a58bc495264dac) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '23481913ea9e198cf202d2cf2827dddf') in 0.483306 seconds
+  Import took 0.504455 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 637.682996 seconds.
+  path: Assets/Animations/Player/Player_win.anim
+  artifactKey: Guid(d6533ad01c379b1429feb94e03f2e32a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Animations/Player/Player_win.anim using Guid(d6533ad01c379b1429feb94e03f2e32a) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b7feff9a47dae33d607418eb8b173ff6') in 0.011018 seconds
+  Import took 0.015939 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 79.851484 seconds.
+  path: Assets/Scripts/MainMenu.cs
+  artifactKey: Guid(c411211b981e08e4d8e699ec74d2e2c1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scripts/MainMenu.cs using Guid(c411211b981e08e4d8e699ec74d2e2c1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '4896fdcaee669522f65c6e99b087b678') in 0.011966 seconds
+  Import took 0.030175 seconds .
+
+AssetImportWorkerClient::OnTransportError - code=2 error=End of file
