@@ -57,6 +57,14 @@ public class @Controls : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Debug"",
+                    ""type"": ""Button"",
+                    ""id"": ""970fd8e9-f1f4-49f4-a490-8767249b47e3"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -224,6 +232,96 @@ public class @Controls : IInputActionCollection, IDisposable
                     ""action"": ""Move"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8269e35a-becb-4a40-b6c8-edeac5528a1b"",
+                    ""path"": ""<Keyboard>/backslash"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Debug"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ba96f08d-c270-4278-8be4-cda1722880db"",
+                    ""path"": ""<Gamepad>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Debug"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
+        },
+        {
+            ""name"": ""UI"",
+            ""id"": ""44e379e8-0f42-4046-a71e-fd456d2cc2fc"",
+            ""actions"": [
+                {
+                    ""name"": ""Navigate"",
+                    ""type"": ""Button"",
+                    ""id"": ""d18d7d34-df32-483b-9ad6-b8d2f50f967c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Accept"",
+                    ""type"": ""Button"",
+                    ""id"": ""027e0d4a-e689-46e1-b7ae-3d62e11d3aaa"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""5a9e178e-881d-414b-9b05-6aa30aa2561d"",
+                    ""path"": """",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Navigate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""04688b3b-f3e8-448d-a84b-c503bf13f566"",
+                    ""path"": ""<Keyboard>/enter"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Accept"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""9e8acab6-10d5-493e-85a5-72650a8b9324"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Accept"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""016e7519-cd18-42de-9d54-076cb2dcc3d8"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Accept"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -260,6 +358,11 @@ public class @Controls : IInputActionCollection, IDisposable
         m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
         m_Player_Dash = m_Player.FindAction("Dash", throwIfNotFound: true);
         m_Player_Climb = m_Player.FindAction("Climb", throwIfNotFound: true);
+        m_Player_Debug = m_Player.FindAction("Debug", throwIfNotFound: true);
+        // UI
+        m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
+        m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
+        m_UI_Accept = m_UI.FindAction("Accept", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -314,6 +417,7 @@ public class @Controls : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_Move;
     private readonly InputAction m_Player_Dash;
     private readonly InputAction m_Player_Climb;
+    private readonly InputAction m_Player_Debug;
     public struct PlayerActions
     {
         private @Controls m_Wrapper;
@@ -323,6 +427,7 @@ public class @Controls : IInputActionCollection, IDisposable
         public InputAction @Move => m_Wrapper.m_Player_Move;
         public InputAction @Dash => m_Wrapper.m_Player_Dash;
         public InputAction @Climb => m_Wrapper.m_Player_Climb;
+        public InputAction @Debug => m_Wrapper.m_Player_Debug;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -347,6 +452,9 @@ public class @Controls : IInputActionCollection, IDisposable
                 @Climb.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnClimb;
                 @Climb.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnClimb;
                 @Climb.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnClimb;
+                @Debug.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDebug;
+                @Debug.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDebug;
+                @Debug.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnDebug;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -366,10 +474,54 @@ public class @Controls : IInputActionCollection, IDisposable
                 @Climb.started += instance.OnClimb;
                 @Climb.performed += instance.OnClimb;
                 @Climb.canceled += instance.OnClimb;
+                @Debug.started += instance.OnDebug;
+                @Debug.performed += instance.OnDebug;
+                @Debug.canceled += instance.OnDebug;
             }
         }
     }
     public PlayerActions @Player => new PlayerActions(this);
+
+    // UI
+    private readonly InputActionMap m_UI;
+    private IUIActions m_UIActionsCallbackInterface;
+    private readonly InputAction m_UI_Navigate;
+    private readonly InputAction m_UI_Accept;
+    public struct UIActions
+    {
+        private @Controls m_Wrapper;
+        public UIActions(@Controls wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Navigate => m_Wrapper.m_UI_Navigate;
+        public InputAction @Accept => m_Wrapper.m_UI_Accept;
+        public InputActionMap Get() { return m_Wrapper.m_UI; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(UIActions set) { return set.Get(); }
+        public void SetCallbacks(IUIActions instance)
+        {
+            if (m_Wrapper.m_UIActionsCallbackInterface != null)
+            {
+                @Navigate.started -= m_Wrapper.m_UIActionsCallbackInterface.OnNavigate;
+                @Navigate.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnNavigate;
+                @Navigate.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnNavigate;
+                @Accept.started -= m_Wrapper.m_UIActionsCallbackInterface.OnAccept;
+                @Accept.performed -= m_Wrapper.m_UIActionsCallbackInterface.OnAccept;
+                @Accept.canceled -= m_Wrapper.m_UIActionsCallbackInterface.OnAccept;
+            }
+            m_Wrapper.m_UIActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Navigate.started += instance.OnNavigate;
+                @Navigate.performed += instance.OnNavigate;
+                @Navigate.canceled += instance.OnNavigate;
+                @Accept.started += instance.OnAccept;
+                @Accept.performed += instance.OnAccept;
+                @Accept.canceled += instance.OnAccept;
+            }
+        }
+    }
+    public UIActions @UI => new UIActions(this);
     private int m_GamepadSchemeIndex = -1;
     public InputControlScheme GamepadScheme
     {
@@ -395,5 +547,11 @@ public class @Controls : IInputActionCollection, IDisposable
         void OnMove(InputAction.CallbackContext context);
         void OnDash(InputAction.CallbackContext context);
         void OnClimb(InputAction.CallbackContext context);
+        void OnDebug(InputAction.CallbackContext context);
+    }
+    public interface IUIActions
+    {
+        void OnNavigate(InputAction.CallbackContext context);
+        void OnAccept(InputAction.CallbackContext context);
     }
 }

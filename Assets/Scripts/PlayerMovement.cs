@@ -10,8 +10,10 @@ public class PlayerMovement : MonoBehaviour
     private Controls inputActions;
     private float movX;
     private Rigidbody2D body;
+
     public float jumpForce, speed;
     public AudioClip jumpSound;
+    public AudioClip deathSound;
 
     void Awake()
     {
@@ -19,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
         inputActions.Player.Move.performed += context => movX = context.ReadValue<float>();
         inputActions.Player.Move.canceled += context => movX = 0;
         inputActions.Player.Jump.performed += context => Jump();
+        inputActions.Player.Debug.performed += _ => Die();
     }
 
     void Start()
@@ -62,13 +65,20 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private bool IsOnGround()
+    public bool IsOnGround()
     {
         if (Physics2D.Raycast(transform.position, Vector3.down, 0.5f))
         {
             return true;
         }
         return false;
+    }
+
+    private void Die()
+    {
+        animator.SetTrigger("die");
+        
+        Camera.main.GetComponent<AudioSource>().PlayOneShot(deathSound);
     }
 
     private void OnEnable()

@@ -7,8 +7,10 @@ public class PlayerAttack : MonoBehaviour
 {
     private Controls inputActions;
     private Animator animator;
+    private float nextAttackTimer = 0f;
+    private bool canAttack;
 
-    public float attackCooldown;
+    public float attackRate;
     public AudioClip attackSound;
     public Transform hitbox;
     public float range;
@@ -29,19 +31,23 @@ public class PlayerAttack : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        canAttack = (Time.time >= nextAttackTimer);
     }
 
     private void Attack()
     {
-        animator.SetTrigger("attack");
-        Collider2D[] enemiesArray = Physics2D.OverlapCircleAll(hitbox.position, range, enemies);
-        //TO DO
-        //Collider2D[] enemiessArray = Physics2D.OverlapCapsuleAll(hitbox.position, range, enemies);
-        Camera.main.GetComponent<AudioSource>().PlayOneShot(attackSound);
-        foreach(Collider2D enemy in enemiesArray)
+        if (gameObject.GetComponent<PlayerMovement>().IsOnGround() && canAttack)
         {
-            Debug.Log("me fumo un alonso");
+            animator.SetTrigger("attack");
+            Collider2D[] enemiesArray = Physics2D.OverlapCircleAll(hitbox.position, range, enemies);
+            //TO DO
+            //Collider2D[] enemiessArray = Physics2D.OverlapCapsuleAll(hitbox.position, range, enemies);
+            Camera.main.GetComponent<AudioSource>().PlayOneShot(attackSound);
+            foreach (Collider2D enemy in enemiesArray)
+            {
+                enemy.GetComponent<EnemyBehaviour>().Die();
+            }
+            nextAttackTimer = Time.time + 1f / attackRate;
         }
     }
 
