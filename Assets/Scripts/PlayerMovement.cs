@@ -3,20 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour, ITurnable, INextLevel
 {
     private Animator animator;
     private Controls inputActions;
     private float movX;
     private Rigidbody2D body;
-
+    //***********************************************//
     public float jumpForce, speed;
     public AudioClip jumpSound;
     public AudioClip deathSound;
+    private LeaderboardManager leaderboardManager;
+    public GameObject respawn;
 
     void Awake()
     {
+        leaderboardManager = new LeaderboardManager();
         inputActions = new Controls();
         inputActions.Player.Move.performed += context => movX = context.ReadValue<float>();
         inputActions.Player.Move.canceled += context => movX = 0;
@@ -53,7 +57,7 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void LeftOrRight(float AxisX)
+    public void LeftOrRight(float AxisX)
     {
         if (AxisX < 0.0f)
         {
@@ -74,10 +78,32 @@ public class PlayerMovement : MonoBehaviour
         return false;
     }
 
-    private void Die()
+    public void Die()
     {
         animator.SetTrigger("die");
         GetComponent<AudioSource>().PlayOneShot(deathSound);
+        leaderboardManager.addDeath();
+        Debug.Log(leaderboardManager.GetDeaths());
+        float wait = Time.deltaTime + 3.0f;
+        gameObject.transform.position = respawn.transform.position;
+    }
+
+    private void Win()
+    {
+        LoadNextLevel(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void LoadNextLevel(int buildIndex)
+    {
+        int toLoad = buildIndex + 1;
+        if(toLoad != 3)
+        {
+            SceneManager.LoadScene(toLoad);
+        }
+        else
+        {
+            SceneManager.LoadScene(0);
+        }
     }
 
     private void OnEnable()

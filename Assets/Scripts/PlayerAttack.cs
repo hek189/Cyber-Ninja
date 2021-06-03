@@ -40,8 +40,6 @@ public class PlayerAttack : MonoBehaviour
         {
             animator.SetTrigger("attack");
             Collider2D[] enemiesArray = Physics2D.OverlapCircleAll(hitbox.position, range, enemies);
-            //TO DO
-            //Collider2D[] enemiessArray = Physics2D.OverlapCapsuleAll(hitbox.position, range, enemies);
             GetComponent<AudioSource>().PlayOneShot(attackSound);
             foreach (Collider2D enemy in enemiesArray)
             {
