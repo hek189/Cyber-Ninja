@@ -42,7 +42,7 @@ public class PlayerAttack : MonoBehaviour
             Collider2D[] enemiesArray = Physics2D.OverlapCircleAll(hitbox.position, range, enemies);
             //TO DO
             //Collider2D[] enemiessArray = Physics2D.OverlapCapsuleAll(hitbox.position, range, enemies);
-            Camera.main.GetComponent<AudioSource>().PlayOneShot(attackSound);
+            GetComponent<AudioSource>().PlayOneShot(attackSound);
             foreach (Collider2D enemy in enemiesArray)
             {
                 enemy.GetComponent<EnemyBehaviour>().Die();

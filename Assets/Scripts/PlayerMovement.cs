@@ -49,7 +49,7 @@ public class PlayerMovement : MonoBehaviour
         if (IsOnGround())
         {
             body.AddForce(Vector2.up * jumpForce);
-            Camera.main.GetComponent<AudioSource>().PlayOneShot(jumpSound);
+            GetComponent<AudioSource>().PlayOneShot(jumpSound);
         }
     }
 
@@ -77,8 +77,7 @@ public class PlayerMovement : MonoBehaviour
     private void Die()
     {
         animator.SetTrigger("die");
-        
-        Camera.main.GetComponent<AudioSource>().PlayOneShot(deathSound);
+        GetComponent<AudioSource>().PlayOneShot(deathSound);
     }
 
     private void OnEnable()

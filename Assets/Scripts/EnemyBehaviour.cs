@@ -7,6 +7,8 @@ public class EnemyBehaviour : MonoBehaviour
     
 {
     private Animator animator;
+    public float speed;
+    public bool movingLeft = true;
 
     public AudioClip deathSound;
     // Start is called before the first frame update
@@ -27,7 +29,7 @@ public class EnemyBehaviour : MonoBehaviour
     public void Die()
     {
         animator.SetTrigger("die");
-        Camera.main.GetComponent<AudioSource>().PlayOneShot(deathSound);
+        GetComponent<AudioSource>().PlayOneShot(deathSound);
         Destroy(gameObject, GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length);
     }
 }
