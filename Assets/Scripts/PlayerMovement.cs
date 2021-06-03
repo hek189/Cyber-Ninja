@@ -41,6 +41,9 @@ public class PlayerMovement : MonoBehaviour, ITurnable, INextLevel
         animator.SetBool("isRunning", movX != 0);
         animator.SetBool("isJumping", !IsOnGround());
         animator.SetFloat("yDirection", body.velocity.y);
+        if(body.velocity.y < -10){
+            Die();
+        }
     }
 
     private void FixedUpdate()
@@ -88,7 +91,7 @@ public class PlayerMovement : MonoBehaviour, ITurnable, INextLevel
         gameObject.transform.position = respawn.transform.position;
     }
 
-    private void Win()
+    public void Win()
     {
         LoadNextLevel(SceneManager.GetActiveScene().buildIndex);
     }

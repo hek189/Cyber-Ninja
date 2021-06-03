@@ -27,8 +27,12 @@ public class EnemyBehaviour : MonoBehaviour, ITurnable
     void Update()
     {
         direction = player.transform.position - transform.position;
-        LeftOrRight(direction.x);
         canAttack = (Time.time >= nextAttackTimer);
+        if (Mathf.Abs(direction.x) < 1.5)
+        {
+            LeftOrRight(direction.x);
+            Attack();
+        }
     }
 
     private void Attack()
@@ -40,7 +44,7 @@ public class EnemyBehaviour : MonoBehaviour, ITurnable
             GetComponent<AudioSource>().PlayOneShot(attackSound);
             foreach (Collider2D enemy in enemiesArray)
             {
-                enemy.GetComponent<EnemyBehaviour>().Die();
+                enemy.GetComponent<PlayerMovement>().Die();
             }
             nextAttackTimer = Time.time + 1f / attackRate;
         }
