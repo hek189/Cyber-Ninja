@@ -3,18 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class MainMenu : MonoBehaviour
+public class MainMenu : MonoBehaviour, INextLevel
 {
     public void Play()
     {
-        PlayerPrefs.SetInt("nDeaths", 0);
-        PlayerPrefs.SetFloat("timer", 0.0f);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        Debug.Log(SceneManager.GetActiveScene().buildIndex);
+        LoadNextLevel(SceneManager.GetActiveScene().buildIndex);
     }
 
     public void Quit()
     {
         Debug.Log("salir");
         Application.Quit();
+    }
+
+    public void LoadNextLevel(int buildIndex){
+        SceneManager.LoadScene(buildIndex + 1);
     }
 }
