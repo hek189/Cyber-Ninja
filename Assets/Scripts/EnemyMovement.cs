@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour, ITurnable
 {
-    Rigidbody2D body;
+    private Rigidbody2D body;
     public GameObject player;
     public float speed = 3;
     private Vector2 direction;
@@ -17,8 +17,8 @@ public class EnemyMovement : MonoBehaviour, ITurnable
     // Update is called once per frame
     void Update()
     {
-        direction = player.transform.position - transform.position;
-        LeftOrRight(direction.x);
+        /**direction = player.transform.position - transform.position;
+        LeftOrRight(direction.x);**/
     }
 
     private void FixedUpdate()

@@ -36,7 +36,7 @@ public class PlayerAttack : MonoBehaviour
 
     private void Attack()
     {
-        if (gameObject.GetComponent<PlayerMovement>().IsOnGround() && canAttack)
+        if (gameObject.GetComponent<PlayerBehaviour>().IsOnGround() && canAttack)
         {
             animator.SetTrigger("attack");
             Collider2D[] enemiesArray = Physics2D.OverlapCircleAll(hitbox.position, range, enemies);

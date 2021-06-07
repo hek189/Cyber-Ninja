@@ -469,7 +469,8 @@ MonoBehaviour:
   speed: 4
   jumpSound: {fileID: 8300000, guid: e9226cab4c4ffd24bb4887669e87fc2e, type: 3}
   deathSound: {fileID: 8300000, guid: 2dfa67db8cf398344a6fc695bf40a706, type: 3}
-  respawn: {fileID: 0}
+  deathTimerOffset: 0.5
+  FallToDeathDistanceY: -10
 --- !u!50 &226950444
 Rigidbody2D:
   serializedVersion: 4
@@ -571,7 +572,7 @@ GameObject:
   m_Layer: 0
   m_Name: EndLevel
   m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1

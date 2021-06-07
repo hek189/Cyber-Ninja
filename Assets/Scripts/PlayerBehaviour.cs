@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
-public class PlayerMovement : MonoBehaviour, ITurnable
+public class PlayerBehaviour : MonoBehaviour, ITurnable
 {
     private Animator animator;
     private Controls inputActions;
@@ -16,11 +16,11 @@ public class PlayerMovement : MonoBehaviour, ITurnable
     public AudioClip jumpSound;
     public AudioClip deathSound;
     private LeaderboardManager leaderboardManager;
-    public GameObject respawn;
+    public float deathTimerOffset = 0.5f;
+    public float FallToDeathDistanceY = -10;
 
     void Awake()
     {
-        leaderboardManager = new LeaderboardManager();
         inputActions = new Controls();
         inputActions.Player.Move.performed += context => movX = context.ReadValue<float>();
         inputActions.Player.Move.canceled += context => movX = 0;
@@ -31,6 +31,7 @@ public class PlayerMovement : MonoBehaviour, ITurnable
 
     void Start()
     {
+        leaderboardManager = GetComponent<LeaderboardManager>();
         animator = GetComponent<Animator>();
         body = GetComponent<Rigidbody2D>();
     }
@@ -44,9 +45,9 @@ public class PlayerMovement : MonoBehaviour, ITurnable
         animator.SetBool("isRunning", movX != 0);
         animator.SetBool("isJumping", !IsOnGround());
         animator.SetFloat("yDirection", body.velocity.y);
-        if (body.position.y < -10)
+        if (body.position.y < FallToDeathDistanceY)
         {
-            Die();
+            FallToDeath();
         }
     }
 
@@ -104,12 +105,18 @@ public class PlayerMovement : MonoBehaviour, ITurnable
 
     public void Die()
     {
+        PlayerPrefs.SetInt("nDeaths", PlayerPrefs.GetInt("nDeaths") + 1);
         animator.SetTrigger("die");
+        Camera.main.GetComponent<AudioSource>().Stop();
         GetComponent<AudioSource>().PlayOneShot(deathSound);
-        leaderboardManager.addDeath();
-        Debug.Log(leaderboardManager.GetDeaths());
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        gameObject.transform.position = respawn.transform.position;
+        Destroy(gameObject, GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length + deathTimerOffset);
+    }
+
+    private void FallToDeath()
+    {
+        PlayerPrefs.SetInt("nDeaths", PlayerPrefs.GetInt("nDeaths") + 1);
+         Camera.main.GetComponent<AudioSource>().Stop();
+         Destroy(gameObject, 3 + deathTimerOffset);
     }
 
     public void Win()
@@ -130,5 +137,10 @@ public class PlayerMovement : MonoBehaviour, ITurnable
     private void OnDisable()
     {
         inputActions.Player.Disable();
+    }
+
+    private void OnDestroy()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

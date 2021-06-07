@@ -8,15 +8,17 @@ public class EnemyBehaviour : MonoBehaviour
 {
     private Animator animator;
     private Vector2 direction;
-    public GameObject player;
-    public AudioClip deathSound;
     private bool canAttack;
     private float nextAttackTimer = 0f;
+    /****************************/
+    public GameObject player;
+    public AudioClip deathSound;
     public float attackRate;
     public AudioClip attackSound;
     public Transform hitbox;
     public float range;
     public LayerMask playerLayer;
+    public float distanceFromPlayer;
     // Start is called before the first frame update
     void Start()
     {
@@ -26,22 +28,24 @@ public class EnemyBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Attack();
+        canAttack = (Time.time >= nextAttackTimer);
+        if (canAttack && Mathf.Abs(direction.x) < distanceFromPlayer)
+        {
+            Attack();
+        }
+
     }
 
     private void Attack()
     {
-        if (canAttack && Mathf.Abs(direction.x) < 1)
+        animator.SetTrigger("attack");
+        Collider2D[] enemiesArray = Physics2D.OverlapCircleAll(hitbox.position, range, playerLayer);
+        GetComponent<AudioSource>().PlayOneShot(attackSound);
+        foreach (Collider2D enemy in enemiesArray)
         {
-            animator.SetTrigger("attack");
-            Collider2D[] enemiesArray = Physics2D.OverlapCircleAll(hitbox.position, range, playerLayer);
-            GetComponent<AudioSource>().PlayOneShot(attackSound);
-            foreach (Collider2D enemy in enemiesArray)
-            {
-                enemy.GetComponent<PlayerMovement>().Die();
-            }
-            nextAttackTimer = Time.time + 1f / attackRate;
+            enemy.GetComponent<PlayerBehaviour>().Die();
         }
+        nextAttackTimer = Time.time + 1f / attackRate;
     }
 
     public void Die()
