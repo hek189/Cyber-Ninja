@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyBehaviour : MonoBehaviour, ITurnable
+public class EnemyBehaviour : MonoBehaviour
 
 
 {
@@ -26,13 +26,7 @@ public class EnemyBehaviour : MonoBehaviour, ITurnable
     // Update is called once per frame
     void Update()
     {
-        direction = player.transform.position - transform.position;
-        canAttack = (Time.time >= nextAttackTimer);
-        if (Mathf.Abs(direction.x) < 1.5)
-        {
-            LeftOrRight(direction.x);
-            Attack();
-        }
+        Attack();
     }
 
     private void Attack()
@@ -55,18 +49,6 @@ public class EnemyBehaviour : MonoBehaviour, ITurnable
         animator.SetTrigger("die");
         GetComponent<AudioSource>().PlayOneShot(deathSound);
         Destroy(gameObject, GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length);
-    }
-
-    public void LeftOrRight(float AxisX)
-    {
-        if (AxisX < 0.0f)
-        {
-            transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
-        }
-        else if (AxisX > 0.0f)
-        {
-            transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-        }
     }
 
     private void OnDrawGizmosSelected()

@@ -5,13 +5,13 @@ using UnityEngine.InputSystem;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
-public class PlayerMovement : MonoBehaviour, ITurnable, INextLevel
+public class PlayerMovement : MonoBehaviour, ITurnable
 {
     private Animator animator;
     private Controls inputActions;
     private float movX;
     private Rigidbody2D body;
-    //***********************************************//
+    /***********************************************/
     public float jumpForce, speed;
     public AudioClip jumpSound;
     public AudioClip deathSound;
@@ -25,6 +25,7 @@ public class PlayerMovement : MonoBehaviour, ITurnable, INextLevel
         inputActions.Player.Move.performed += context => movX = context.ReadValue<float>();
         inputActions.Player.Move.canceled += context => movX = 0;
         inputActions.Player.Jump.performed += context => Jump();
+        inputActions.Player.Dash.performed += context => Dash();
         inputActions.Player.Debug.performed += _ => Die();
     }
 
@@ -34,6 +35,8 @@ public class PlayerMovement : MonoBehaviour, ITurnable, INextLevel
         body = GetComponent<Rigidbody2D>();
     }
 
+
+
     // Update is called once per frame
     void Update()
     {
@@ -41,7 +44,8 @@ public class PlayerMovement : MonoBehaviour, ITurnable, INextLevel
         animator.SetBool("isRunning", movX != 0);
         animator.SetBool("isJumping", !IsOnGround());
         animator.SetFloat("yDirection", body.velocity.y);
-        if(body.velocity.y < -10){
+        if (body.position.y < -10)
+        {
             Die();
         }
     }
@@ -57,6 +61,23 @@ public class PlayerMovement : MonoBehaviour, ITurnable, INextLevel
         {
             body.AddForce(Vector2.up * jumpForce);
             GetComponent<AudioSource>().PlayOneShot(jumpSound);
+        }
+    }
+
+    private void Dash()
+    {
+        if (!IsOnGround())
+        {
+            if (movX < 0)
+            {
+                body.AddForce(Vector2.left * jumpForce);
+                GetComponent<AudioSource>().PlayOneShot(jumpSound);
+            }
+            else if (movX > 0)
+            {
+                body.AddForce(Vector2.right * jumpForce);
+                GetComponent<AudioSource>().PlayOneShot(jumpSound);
+            }
         }
     }
 
@@ -87,26 +108,18 @@ public class PlayerMovement : MonoBehaviour, ITurnable, INextLevel
         GetComponent<AudioSource>().PlayOneShot(deathSound);
         leaderboardManager.addDeath();
         Debug.Log(leaderboardManager.GetDeaths());
-        float wait = Time.deltaTime + 3.0f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         gameObject.transform.position = respawn.transform.position;
     }
 
     public void Win()
     {
-        LoadNextLevel(SceneManager.GetActiveScene().buildIndex);
+        LoadNextLevel();
     }
 
-    public void LoadNextLevel(int buildIndex)
+    public void LoadNextLevel()
     {
-        int toLoad = buildIndex + 1;
-        if(toLoad != 3)
-        {
-            SceneManager.LoadScene(toLoad);
-        }
-        else
-        {
-            SceneManager.LoadScene(0);
-        }
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
     private void OnEnable()
