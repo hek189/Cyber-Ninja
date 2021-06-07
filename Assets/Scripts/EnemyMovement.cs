@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyMovement : MonoBehaviour, ITurnable
+public class EnemyMovement : MonoBehaviour
 {
     private Rigidbody2D body;
     public GameObject player;
@@ -26,7 +26,7 @@ public class EnemyMovement : MonoBehaviour, ITurnable
         body.velocity = new Vector2(speed, body.velocity.y);
     }
 
-    public void LeftOrRight(float AxisX)
+    private void LeftOrRight(float AxisX)
     {
         if (AxisX < 0.0f)
         {

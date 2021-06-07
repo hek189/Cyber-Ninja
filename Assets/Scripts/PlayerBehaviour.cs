@@ -5,7 +5,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
-public class PlayerBehaviour : MonoBehaviour, ITurnable
+public class PlayerBehaviour : MonoBehaviour
 {
     private Animator animator;
     private Controls inputActions;
@@ -82,7 +82,7 @@ public class PlayerBehaviour : MonoBehaviour, ITurnable
         }
     }
 
-    public void LeftOrRight(float AxisX)
+    private void LeftOrRight(float AxisX)
     {
         if (AxisX < 0.0f)
         {
@@ -115,18 +115,13 @@ public class PlayerBehaviour : MonoBehaviour, ITurnable
     private void FallToDeath()
     {
         PlayerPrefs.SetInt("nDeaths", PlayerPrefs.GetInt("nDeaths") + 1);
-         Camera.main.GetComponent<AudioSource>().Stop();
-         Destroy(gameObject, 3 + deathTimerOffset);
+        Camera.main.GetComponent<AudioSource>().Stop();
+        Destroy(gameObject, deathTimerOffset * 2);
     }
 
     public void Win()
     {
-        LoadNextLevel();
-    }
-
-    public void LoadNextLevel()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1); ;
     }
 
     private void OnEnable()
