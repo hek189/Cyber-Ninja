@@ -469,7 +469,9 @@ MonoBehaviour:
   speed: 4
   jumpSound: {fileID: 8300000, guid: e9226cab4c4ffd24bb4887669e87fc2e, type: 3}
   deathSound: {fileID: 8300000, guid: 2dfa67db8cf398344a6fc695bf40a706, type: 3}
-  deathTimerOffset: 0.5
+  victorySound: {fileID: 8300000, guid: b63c4b46e6b0f394cb82ccba27550a0a, type: 3}
+  fallToDeathSound: {fileID: 8300000, guid: cf929cead9bc41b46be77b15f29822f6, type: 3}
+  timerOffset: 0.5
   FallToDeathDistanceY: -10
 --- !u!50 &226950444
 Rigidbody2D:

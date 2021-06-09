@@ -9,7 +9,8 @@ public class EnemyBehaviour : MonoBehaviour
     private Animator animator;
     private Vector2 direction;
     private bool canAttack;
-    private float nextAttackTimer = 0f;
+    private float nextAttackTimer;
+    private Collider2D[] playerArray;
     /****************************/
     public GameObject player;
     public AudioClip deathSound;
@@ -29,21 +30,20 @@ public class EnemyBehaviour : MonoBehaviour
     void Update()
     {
         canAttack = (Time.time >= nextAttackTimer);
-        if (canAttack && Mathf.Abs(direction.x) < distanceFromPlayer)
+        playerArray = Physics2D.OverlapCircleAll(hitbox.position, range, playerLayer);
+        if(canAttack && playerArray.Length >0)
         {
             Attack();
         }
-
     }
 
     private void Attack()
     {
         animator.SetTrigger("attack");
-        Collider2D[] enemiesArray = Physics2D.OverlapCircleAll(hitbox.position, range, playerLayer);
         GetComponent<AudioSource>().PlayOneShot(attackSound);
-        foreach (Collider2D enemy in enemiesArray)
+        foreach (Collider2D player in playerArray)
         {
-            enemy.GetComponent<PlayerBehaviour>().Die();
+            player.GetComponent<PlayerBehaviour>().Die();
         }
         nextAttackTimer = Time.time + 1f / attackRate;
     }
@@ -62,5 +62,4 @@ public class EnemyBehaviour : MonoBehaviour
             Gizmos.DrawWireSphere(hitbox.position, range);
         }
     }
-
 }

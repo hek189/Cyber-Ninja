@@ -2,48 +2,45 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyMovement : MonoBehaviour, ITurnable
+public class EnemyMovement : MonoBehaviour
 {
+    private Vector2 direction;
     private Rigidbody2D body;
+    private Animator animator;
     public GameObject player;
     public float speed = 3;
-    private Vector2 direction;
+
     // Start is called before the first frame update
     void Start()
     {
         body = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        /**direction = player.transform.position - transform.position;
-        LeftOrRight(direction.x);**/
+        //direction = player.transform.position - transform.position;
+        animator.SetBool("isMoving", speed != 0);
     }
 
     private void FixedUpdate()
     {
-        body.velocity = new Vector2(speed, body.velocity.y);
-    }
-
-    public void LeftOrRight(float AxisX)
-    {
-        if (AxisX < 0.0f)
+        if (IsFacingRight())
         {
-            transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
+            body.velocity = new Vector2(speed, body.velocity.y);
         }
-        else if (AxisX > 0.0f)
+        else
         {
-            transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+            body.velocity = new Vector2(-speed, body.velocity.y);
         }
     }
-
-    private bool IsHittingWall()
+    private bool IsFacingRight()
     {
-        if (Physics2D.Raycast(transform.position, Vector3.left, 0.5f))
-        {
-            return true;
-        }
-        return false;
+        return transform.localScale.x > Mathf.Epsilon;
+    }
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        transform.localScale = new Vector2(-(Mathf.Sign(body.velocity.x)), transform.localScale.y);
     }
 }

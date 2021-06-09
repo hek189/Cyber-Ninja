@@ -57,6 +57,11 @@ public class PlayerAttack : MonoBehaviour
         }
     }
 
+    public void DisableInput()
+    {
+        inputActions.Player.Disable();
+    }
+
     private void OnEnable()
     {
         inputActions.Player.Enable();

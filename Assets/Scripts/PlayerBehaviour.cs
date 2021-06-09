@@ -5,18 +5,18 @@ using UnityEngine.InputSystem;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
-public class PlayerBehaviour : MonoBehaviour, ITurnable
+public class PlayerBehaviour : MonoBehaviour
 {
     private Animator animator;
     private Controls inputActions;
     private float movX;
     private Rigidbody2D body;
+    private bool hasWon = false, alreadyFallen = false;
+    private AudioSource audioSource;
     /***********************************************/
     public float jumpForce, speed;
-    public AudioClip jumpSound;
-    public AudioClip deathSound;
-    private LeaderboardManager leaderboardManager;
-    public float deathTimerOffset = 0.5f;
+    public AudioClip jumpSound, deathSound, victorySound, fallToDeathSound;
+    public float timerOffset = 0.5f;
     public float FallToDeathDistanceY = -10;
 
     void Awake()
@@ -26,14 +26,14 @@ public class PlayerBehaviour : MonoBehaviour, ITurnable
         inputActions.Player.Move.canceled += context => movX = 0;
         inputActions.Player.Jump.performed += context => Jump();
         inputActions.Player.Dash.performed += context => Dash();
-        inputActions.Player.Debug.performed += _ => Die();
+        inputActions.Player.Debug.performed += _ => Win();
     }
 
     void Start()
     {
-        leaderboardManager = GetComponent<LeaderboardManager>();
         animator = GetComponent<Animator>();
         body = GetComponent<Rigidbody2D>();
+        audioSource = GetComponent<AudioSource>();
     }
 
 
@@ -45,8 +45,9 @@ public class PlayerBehaviour : MonoBehaviour, ITurnable
         animator.SetBool("isRunning", movX != 0);
         animator.SetBool("isJumping", !IsOnGround());
         animator.SetFloat("yDirection", body.velocity.y);
-        if (body.position.y < FallToDeathDistanceY)
+        if (body.position.y < FallToDeathDistanceY && !alreadyFallen)
         {
+            alreadyFallen = true;
             FallToDeath();
         }
     }
@@ -61,7 +62,7 @@ public class PlayerBehaviour : MonoBehaviour, ITurnable
         if (IsOnGround())
         {
             body.AddForce(Vector2.up * jumpForce);
-            GetComponent<AudioSource>().PlayOneShot(jumpSound);
+            audioSource.PlayOneShot(jumpSound);
         }
     }
 
@@ -72,17 +73,17 @@ public class PlayerBehaviour : MonoBehaviour, ITurnable
             if (movX < 0)
             {
                 body.AddForce(Vector2.left * jumpForce);
-                GetComponent<AudioSource>().PlayOneShot(jumpSound);
+                audioSource.PlayOneShot(jumpSound);
             }
             else if (movX > 0)
             {
                 body.AddForce(Vector2.right * jumpForce);
-                GetComponent<AudioSource>().PlayOneShot(jumpSound);
+                audioSource.PlayOneShot(jumpSound);
             }
         }
     }
 
-    public void LeftOrRight(float AxisX)
+    private void LeftOrRight(float AxisX)
     {
         if (AxisX < 0.0f)
         {
@@ -96,7 +97,7 @@ public class PlayerBehaviour : MonoBehaviour, ITurnable
 
     public bool IsOnGround()
     {
-        if (Physics2D.Raycast(transform.position, Vector3.down, 0.5f))
+        if (Physics2D.Raycast(transform.position, Vector2.down, 0.5f))
         {
             return true;
         }
@@ -105,28 +106,28 @@ public class PlayerBehaviour : MonoBehaviour, ITurnable
 
     public void Die()
     {
-        PlayerPrefs.SetInt("nDeaths", PlayerPrefs.GetInt("nDeaths") + 1);
         animator.SetTrigger("die");
         Camera.main.GetComponent<AudioSource>().Stop();
         GetComponent<AudioSource>().PlayOneShot(deathSound);
-        Destroy(gameObject, GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length + deathTimerOffset);
+        Destroy(gameObject, GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length + timerOffset);
     }
 
     private void FallToDeath()
     {
-        PlayerPrefs.SetInt("nDeaths", PlayerPrefs.GetInt("nDeaths") + 1);
-         Camera.main.GetComponent<AudioSource>().Stop();
-         Destroy(gameObject, 3 + deathTimerOffset);
+        Camera.main.GetComponent<AudioSource>().Stop();
+        audioSource.PlayOneShot(fallToDeathSound);
+        Destroy(gameObject, fallToDeathSound.length + timerOffset);
     }
 
     public void Win()
     {
-        LoadNextLevel();
-    }
-
-    public void LoadNextLevel()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        inputActions.Player.Disable();
+        GetComponent<PlayerAttack>().DisableInput();
+        hasWon = true;
+        animator.SetTrigger("victory");
+        Camera.main.GetComponent<AudioSource>().Stop();
+        audioSource.PlayOneShot(victorySound);
+        Destroy(gameObject, victorySound.length + timerOffset);
     }
 
     private void OnEnable()
@@ -141,6 +142,14 @@ public class PlayerBehaviour : MonoBehaviour, ITurnable
 
     private void OnDestroy()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        if (!hasWon)
+        {
+            GetComponent<UIScript>().AddDeath();
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
+        else
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        }
     }
 }

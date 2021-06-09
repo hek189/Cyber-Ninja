@@ -11,14 +11,20 @@ public class UIScript : MonoBehaviour
     private int nDeaths;
     void Start()
     {
-
+        deaths.text = nDeaths.ToString();
     }
+
 
     // Update is called once per frame
     void Update()
     {
         timer += Time.deltaTime;
         time.text = timer.ToString("0");
+    }
+
+    public void AddDeath()
+    {
+        nDeaths++;
     }
 
     private void OnDisable()
