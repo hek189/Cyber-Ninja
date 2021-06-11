@@ -22,14 +22,8 @@ public class UIScript : MonoBehaviour
         time.text = timer.ToString("0");
     }
 
-    public void AddDeath()
-    {
-        nDeaths++;
-    }
-
     private void OnDisable()
     {
-        PlayerPrefs.SetInt("nDeaths", nDeaths);
         PlayerPrefs.SetFloat("timer", timer);
     }
 

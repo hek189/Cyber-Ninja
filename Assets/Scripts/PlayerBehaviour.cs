@@ -26,7 +26,7 @@ public class PlayerBehaviour : MonoBehaviour
         inputActions.Player.Move.canceled += context => movX = 0;
         inputActions.Player.Jump.performed += context => Jump();
         inputActions.Player.Dash.performed += context => Dash();
-        inputActions.Player.Debug.performed += _ => Win();
+        inputActions.Player.Debug.performed += _ => Die();
     }
 
     void Start()
@@ -87,11 +87,12 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if (AxisX < 0.0f)
         {
-            transform.localScale = new Vector3(-1.0f, 1.0f, 1.0f);
+            transform.localScale = new Vector2(-1.0f, 1.0f);
         }
         else if (AxisX > 0.0f)
         {
-            transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
+            transform.localScale = new Vector2(1.0f, 1.0f);
+            
         }
     }
 
@@ -106,14 +107,18 @@ public class PlayerBehaviour : MonoBehaviour
 
     public void Die()
     {
+        DisableMovement();
+        PlayerPrefs.SetInt("nDeaths", PlayerPrefs.GetInt("nDeaths") + 1);
         animator.SetTrigger("die");
         Camera.main.GetComponent<AudioSource>().Stop();
         GetComponent<AudioSource>().PlayOneShot(deathSound);
-        Destroy(gameObject, GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length + timerOffset);
+        Destroy(gameObject, deathSound.length);
     }
 
     private void FallToDeath()
     {
+        DisableMovement();
+        PlayerPrefs.SetInt("nDeaths", PlayerPrefs.GetInt("nDeaths") + 1);
         Camera.main.GetComponent<AudioSource>().Stop();
         audioSource.PlayOneShot(fallToDeathSound);
         Destroy(gameObject, fallToDeathSound.length + timerOffset);
@@ -121,8 +126,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     public void Win()
     {
-        inputActions.Player.Disable();
-        GetComponent<PlayerAttack>().DisableInput();
+        DisableMovement();
         hasWon = true;
         animator.SetTrigger("victory");
         Camera.main.GetComponent<AudioSource>().Stop();
@@ -130,6 +134,11 @@ public class PlayerBehaviour : MonoBehaviour
         Destroy(gameObject, victorySound.length + timerOffset);
     }
 
+    private void DisableMovement()
+    {
+        inputActions.Player.Disable();
+        GetComponent<PlayerAttack>().DisableInput();
+    }
     private void OnEnable()
     {
         inputActions.Player.Enable();
@@ -144,7 +153,6 @@ public class PlayerBehaviour : MonoBehaviour
     {
         if (!hasWon)
         {
-            GetComponent<UIScript>().AddDeath();
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         }
         else

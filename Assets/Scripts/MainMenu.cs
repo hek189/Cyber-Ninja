@@ -17,4 +17,10 @@ public class MainMenu : MonoBehaviour
         Debug.Log("salir");
         Application.Quit();
     }
+
+    public void Leaderboard()
+    {
+        // TO DO
+        Debug.Log("Puta ISRAEL");
+    }
 }

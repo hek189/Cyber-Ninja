@@ -11,7 +11,7 @@ public class EndscreenManager : MonoBehaviour
     void Start()
     {
         time.text = PlayerPrefs.GetFloat("timer").ToString("0")+" sec";
-        deaths.text = PlayerPrefs.GetFloat("nDeaths").ToString();
+        deaths.text = PlayerPrefs.GetInt("nDeaths").ToString();
     }
 
     // Update is called once per frame

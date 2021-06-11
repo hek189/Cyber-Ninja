@@ -12,7 +12,6 @@ public class EnemyBehaviour : MonoBehaviour
     private float nextAttackTimer;
     private Collider2D[] playerArray;
     /****************************/
-    public GameObject player;
     public AudioClip deathSound;
     public float attackRate;
     public AudioClip attackSound;
@@ -49,10 +48,11 @@ public class EnemyBehaviour : MonoBehaviour
     }
 
     public void Die()
-    {
+    {   enabled = false;
+        //GetComponent<EnemyMovement>().speed = 0;
         animator.SetTrigger("die");
         GetComponent<AudioSource>().PlayOneShot(deathSound);
-        Destroy(gameObject, GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length);
+        Destroy(gameObject, deathSound.length + 0.25f);
     }
 
     private void OnDrawGizmosSelected()

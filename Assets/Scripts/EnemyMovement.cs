@@ -7,8 +7,7 @@ public class EnemyMovement : MonoBehaviour
     private Vector2 direction;
     private Rigidbody2D body;
     private Animator animator;
-    public GameObject player;
-    public float speed = 3;
+    public float speed = 1;
 
     // Start is called before the first frame update
     void Start()
