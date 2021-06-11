@@ -7,7 +7,7 @@ public class Parallax : MonoBehaviour
     // CAMARA MULTIPLANO
     private float length, startpos;
     public Camera camara;
-    public float parallaxEffect;
+    public float parallaxEffect = 1;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,11 +21,11 @@ public class Parallax : MonoBehaviour
         float temp = (camara.transform.position.x * (1 - parallaxEffect));
         float dist = (camara.transform.position.x * parallaxEffect);
         transform.position = new Vector3(startpos + dist, transform.position.y, transform.position.z);
-        /**if(temp > startpos + length)
+        /**if (temp > startpos + length)
         {
             startpos += length;
         }
-        else if(temp < startpos - length)
+        else if (temp < startpos - length)
         {
             startpos -= length;
         }**/

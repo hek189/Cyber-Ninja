@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
-    private Vector2 direction;
     private Rigidbody2D body;
     private Animator animator;
     public float speed = 1;
