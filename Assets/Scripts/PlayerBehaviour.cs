@@ -25,7 +25,6 @@ public class PlayerBehaviour : MonoBehaviour
         inputActions.Player.Move.performed += context => movX = context.ReadValue<float>();
         inputActions.Player.Move.canceled += context => movX = 0;
         inputActions.Player.Jump.performed += context => Jump();
-        inputActions.Player.Dash.performed += context => Dash();
         inputActions.Player.Debug.performed += _ => Die();
     }
 
@@ -66,23 +65,6 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
 
-    private void Dash()
-    {
-        if (!IsOnGround())
-        {
-            if (movX < 0)
-            {
-                body.AddForce(Vector2.left * jumpForce);
-                audioSource.PlayOneShot(jumpSound);
-            }
-            else if (movX > 0)
-            {
-                body.AddForce(Vector2.right * jumpForce);
-                audioSource.PlayOneShot(jumpSound);
-            }
-        }
-    }
-
     private void LeftOrRight(float AxisX)
     {
         if (AxisX < 0.0f)
@@ -92,7 +74,7 @@ public class PlayerBehaviour : MonoBehaviour
         else if (AxisX > 0.0f)
         {
             transform.localScale = new Vector2(1.0f, 1.0f);
-            
+
         }
     }
 

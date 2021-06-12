@@ -32,10 +32,4 @@ public class UIScript : MonoBehaviour
         timer = PlayerPrefs.GetFloat("timer");
         nDeaths = PlayerPrefs.GetInt("nDeaths");
     }
-
-    public void Debug()
-    {
-        timer = 0;
-        nDeaths = 0;
-    }
 }

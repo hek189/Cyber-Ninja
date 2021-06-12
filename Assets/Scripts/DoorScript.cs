@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class DoorScript : MonoBehaviour
 {
-    // Start is called before the first frame update
     private Animator animator;
     private AudioSource source;
+    private bool isClosed = true;
     public AudioClip doorSound;
 
     private void Start()
@@ -17,7 +17,11 @@ public class DoorScript : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        source.PlayOneShot(doorSound);
-        animator.SetBool("isOpen", true);
+        if (isClosed)
+        {
+            isClosed = false;
+            source.PlayOneShot(doorSound);
+            animator.SetBool("isOpen", true);
+        }
     }
 }

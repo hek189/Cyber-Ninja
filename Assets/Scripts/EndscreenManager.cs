@@ -3,18 +3,19 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.Networking;
 
 public class EndscreenManager : MonoBehaviour
 {
     public TextMeshProUGUI time, deaths;
-    private LeaderboardManager leaderboard;
+    private PlayerData playerData;
     void Start()
     {
-        time.text = PlayerPrefs.GetFloat("timer").ToString("0")+" sec";
+        time.text = PlayerPrefs.GetFloat("timer").ToString("0") + " sec";
         deaths.text = PlayerPrefs.GetInt("nDeaths").ToString();
+        playerData = new PlayerData();
     }
 
-    // Update is called once per frame
     void Update()
     {
 

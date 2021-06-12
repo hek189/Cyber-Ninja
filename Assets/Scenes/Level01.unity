@@ -230,6 +230,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 45528214512241958, guid: 9d61ee4d5a5c321469ec2810a965de03, type: 3}
+      propertyPath: m_Offset.x
+      value: 0.44
+      objectReference: {fileID: 0}
     - target: {fileID: 45528214512241966, guid: 9d61ee4d5a5c321469ec2810a965de03, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -16448,7 +16452,7 @@ FrictionJoint2D:
   m_BreakTorque: Infinity
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: 6.0198, y: 0.6}
+  m_ConnectedAnchor: {x: 6, y: 0.6}
   m_MaxForce: 1
   m_MaxTorque: 1
 --- !u!1 &978071947
