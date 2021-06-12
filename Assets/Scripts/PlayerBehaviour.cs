@@ -136,6 +136,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     private void DisableMovement()
     {
+        enabled = false;
         inputActions.Player.Disable();
         GetComponent<PlayerAttack>().DisableInput();
     }
