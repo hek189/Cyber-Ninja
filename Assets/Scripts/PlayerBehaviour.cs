@@ -7,12 +7,11 @@ public class PlayerBehaviour : MonoBehaviour
     private Controls inputActions;
     private float movX;
     private Rigidbody2D body;
-    private bool hasWon = false, alreadyFallen = false;
+    private bool alreadyFallen = false;
     private AudioSource audioSource;
     /***********************************************/
     public float jumpForce, speed;
     public AudioClip jumpSound, deathSound, victorySound, fallToDeathSound;
-    public float timerOffset = 0.5f;
     public float FallToDeathDistanceY = -10;
 
     void Awake()
@@ -21,7 +20,6 @@ public class PlayerBehaviour : MonoBehaviour
         inputActions.Player.Move.performed += context => movX = context.ReadValue<float>();
         inputActions.Player.Move.canceled += context => movX = 0;
         inputActions.Player.Jump.performed += context => Jump();
-        inputActions.Player.Debug.performed += _ => Die();
     }
 
     void Start()
@@ -90,7 +88,7 @@ public class PlayerBehaviour : MonoBehaviour
         animator.SetTrigger("die");
         Camera.main.GetComponent<AudioSource>().Stop();
         GetComponent<AudioSource>().PlayOneShot(deathSound);
-        Destroy(gameObject, deathSound.length);
+        Invoke("Respawn", fallToDeathSound.length);
     }
 
     private void FallToDeath()
@@ -99,17 +97,28 @@ public class PlayerBehaviour : MonoBehaviour
         PlayerPrefs.SetInt("nDeaths", PlayerPrefs.GetInt("nDeaths") + 1);
         Camera.main.GetComponent<AudioSource>().Stop();
         audioSource.PlayOneShot(fallToDeathSound);
-        Destroy(gameObject, fallToDeathSound.length + timerOffset);
+        Invoke("Respawn", fallToDeathSound.length);
+
     }
 
     public void Win()
     {
         DisableMovement();
-        hasWon = true;
         animator.SetTrigger("victory");
         Camera.main.GetComponent<AudioSource>().Stop();
         audioSource.PlayOneShot(victorySound);
-        Destroy(gameObject, victorySound.length + timerOffset);
+        Invoke("NextLevel", victorySound.length);
+    }
+
+    public void Respawn()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void NextLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+
     }
 
     private void DisableMovement()
@@ -127,17 +136,5 @@ public class PlayerBehaviour : MonoBehaviour
     private void OnDisable()
     {
         inputActions.Player.Disable();
-    }
-
-    private void OnDestroy()
-    {
-        if (!hasWon)
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        }
-        else
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-        }
     }
 }

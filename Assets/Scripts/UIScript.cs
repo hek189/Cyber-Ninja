@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class UIScript : MonoBehaviour
 {
@@ -17,6 +18,11 @@ public class UIScript : MonoBehaviour
     {
         timer += Time.deltaTime;
         time.text = timer.ToString("0");
+    }
+
+    public void ReturnToMenu()
+    {
+        SceneManager.LoadScene(0);
     }
 
     private void OnDisable()

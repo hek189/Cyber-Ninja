@@ -102,7 +102,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 1
-  m_Mass: 0.29105115
+  m_Mass: 0.28298986
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
@@ -255,7 +255,7 @@ MonoBehaviour:
   attackRate: 2
   attackSound: {fileID: 8300000, guid: f2b56ec0c26d4e64eb7edc646ec26736, type: 3}
   hitbox: {fileID: 6060862811270865043}
-  range: 0.46
+  range: 0.38
   enemies:
     serializedVersion: 2
     m_Bits: 64
@@ -379,7 +379,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6060862811270865044}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.67, y: -0.22, z: 0}
+  m_LocalPosition: {x: 0.52, y: -0.22, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6060862809613747953}
