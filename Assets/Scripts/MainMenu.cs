@@ -1,10 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
+
 
 public class MainMenu : MonoBehaviour
 {
+
+    private bool isVisible;
+    private DatabaseManager databaseManager;
+    public TextMeshProUGUI leaderboardText;
+
+    private void Start() {
+        databaseManager = GetComponent<DatabaseManager>();
+    }
     public void Play()
     {
         PlayerPrefs.SetInt("nDeaths", 0);
@@ -18,9 +26,16 @@ public class MainMenu : MonoBehaviour
         Application.Quit();
     }
 
-    public void Leaderboard()
+    public async void Leaderboard()
     {
-        // TO DO
-        Debug.Log("Puta ISRAEL");
+        leaderboardText.text = "";
+        var task = databaseManager.GetScores();
+        var result = await task;
+        int num = 1;
+        foreach(var player in result)
+        {
+            leaderboardText.text += num+"). "+player.name+" / "+ player.time.ToString("0") + " / "+player.nDeaths+"\n";
+            num +=1;
+        }
     }
 }

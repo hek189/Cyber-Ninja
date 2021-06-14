@@ -1,24 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.SceneManagement;
-using UnityEngine.Networking;
 
 public class EndscreenManager : MonoBehaviour
 {
-    public TextMeshProUGUI time, deaths;
+    public TextMeshProUGUI time, deaths, playerName;
     private PlayerData playerData;
+    private bool canUpload = true;
+
+    private DatabaseManager databaseManager;
     void Start()
     {
         time.text = PlayerPrefs.GetFloat("timer").ToString("0") + " sec";
         deaths.text = PlayerPrefs.GetInt("nDeaths").ToString();
-        playerData = new PlayerData();
-    }
-
-    void Update()
-    {
-
+        databaseManager = GetComponent<DatabaseManager>();
     }
 
     public void ReturnToMenu()
@@ -33,6 +28,13 @@ public class EndscreenManager : MonoBehaviour
 
     public void UploadToMongo()
     {
-        //TO DO
+        if (canUpload)
+        {
+            databaseManager.UploadToDB(playerName.text.ToString(), PlayerPrefs.GetFloat("timer"), PlayerPrefs.GetInt("nDeaths"));
+            canUpload = false;
+            SceneManager.LoadScene(0);
+        }
     }
 }
+
+
