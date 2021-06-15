@@ -85,7 +85,7 @@ public class PlayerBehaviour : MonoBehaviour
     {
         DisableMovement();
         PlayerPrefs.SetInt("nDeaths", PlayerPrefs.GetInt("nDeaths") + 1);
-        animator.SetTrigger("die");
+        animator.SetBool("isDead", true);
         Camera.main.GetComponent<AudioSource>().Stop();
         GetComponent<AudioSource>().PlayOneShot(deathSound);
         Invoke("Respawn", fallToDeathSound.length);
@@ -110,12 +110,12 @@ public class PlayerBehaviour : MonoBehaviour
         Invoke("NextLevel", victorySound.length);
     }
 
-    public void Respawn()
+    private void Respawn()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-    public void NextLevel()
+    private void NextLevel()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
 
@@ -126,7 +126,6 @@ public class PlayerBehaviour : MonoBehaviour
         enabled = false;
         inputActions.Player.Disable();
         GetComponent<PlayerAttack>().DisableInput();
-        movX = 0;
     }
     private void OnEnable()
     {

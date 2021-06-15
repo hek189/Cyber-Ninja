@@ -1,13 +1,13 @@
 using UnityEngine;
 
 
-public class PlayerAttack : MonoBehaviour 
+public class PlayerAttack : MonoBehaviour
 {
     private Controls inputActions;
     private Animator animator;
     private float nextAttackTimer = 0f;
     private bool canAttack;
-
+    /*********************/
     public float attackRate;
     public AudioClip attackSound;
     public Transform hitbox;

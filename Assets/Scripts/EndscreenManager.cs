@@ -5,9 +5,6 @@ using UnityEngine.SceneManagement;
 public class EndscreenManager : MonoBehaviour
 {
     public TextMeshProUGUI time, deaths, playerName;
-    private PlayerData playerData;
-    private bool canUpload = true;
-
     private DatabaseManager databaseManager;
     void Start()
     {
@@ -28,12 +25,8 @@ public class EndscreenManager : MonoBehaviour
 
     public void UploadToMongo()
     {
-        if (canUpload)
-        {
-            databaseManager.UploadToDB(playerName.text.ToString(), PlayerPrefs.GetFloat("timer"), PlayerPrefs.GetInt("nDeaths"));
-            canUpload = false;
-            SceneManager.LoadScene(0);
-        }
+        databaseManager.UploadToDB(playerName.text.ToString(), PlayerPrefs.GetFloat("timer"), PlayerPrefs.GetInt("nDeaths"));
+        SceneManager.LoadScene(0);
     }
 }
 

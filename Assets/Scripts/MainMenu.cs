@@ -6,11 +6,11 @@ using TMPro;
 public class MainMenu : MonoBehaviour
 {
 
-    private bool isVisible;
     private DatabaseManager databaseManager;
     public TextMeshProUGUI leaderboardText;
 
-    private void Start() {
+    private void Start()
+    {
         databaseManager = GetComponent<DatabaseManager>();
     }
     public void Play()
@@ -32,10 +32,10 @@ public class MainMenu : MonoBehaviour
         var task = databaseManager.GetScores();
         var result = await task;
         int num = 1;
-        foreach(var player in result)
+        foreach (var player in result)
         {
-            leaderboardText.text += num+"). "+player.name+" / "+ player.time.ToString("0") + " / "+player.nDeaths+"\n";
-            num +=1;
+            leaderboardText.text += num + "). " + player.name + " / " + player.time.ToString("0") + " / " + player.nDeaths + "\n";
+            num += 1;
         }
     }
 }

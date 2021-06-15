@@ -5,7 +5,6 @@ public class EnemyBehaviour : MonoBehaviour
 
 {
     private Animator animator;
-    private Vector2 direction;
     private bool canAttack;
     private float nextAttackTimer;
     private Collider2D[] playerArray;
@@ -16,7 +15,6 @@ public class EnemyBehaviour : MonoBehaviour
     public Transform hitbox;
     public float range;
     public LayerMask playerLayer;
-    public float distanceFromPlayer;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,7 +26,7 @@ public class EnemyBehaviour : MonoBehaviour
     {
         canAttack = (Time.time >= nextAttackTimer);
         playerArray = Physics2D.OverlapCircleAll(hitbox.position, range, playerLayer);
-        if(canAttack && playerArray.Length >0)
+        if (canAttack && playerArray.Length > 0)
         {
             Attack();
         }
@@ -46,8 +44,8 @@ public class EnemyBehaviour : MonoBehaviour
     }
 
     public void Die()
-    {   enabled = false;
-        //GetComponent<EnemyMovement>().speed = 0;
+    {
+        enabled = false;
         animator.SetTrigger("die");
         GetComponent<AudioSource>().PlayOneShot(deathSound);
         Destroy(gameObject, deathSound.length + 0.25f);
