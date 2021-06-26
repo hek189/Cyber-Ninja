@@ -85,7 +85,7 @@ public class PlayerBehaviour : MonoBehaviour
     {
         DisableMovement();
         PlayerPrefs.SetInt("nDeaths", PlayerPrefs.GetInt("nDeaths") + 1);
-        animator.SetBool("isDead", true);
+        animator.SetTrigger("die");
         Camera.main.GetComponent<AudioSource>().Stop();
         GetComponent<AudioSource>().PlayOneShot(deathSound);
         Invoke("Respawn", fallToDeathSound.length);
